@@ -21,11 +21,17 @@ export class EditableTimer extends Component{
         console.log('render Method:'+ this.state.editFormOpen)
         if (this.state.editFormOpen) { 
             return (
-              <TimerForm title={this.props.title} project={this.props.project} />
+              <TimerForm 
+                title={this.props.title} 
+                id={this.props.id}
+                onHandleSubmit={this.props.onHandleSubmit}
+                switchTimer={this.switchTimer}
+                project={this.props.project} />
             );
         } else {
       return ( <Timer 
                     title={this.props.title} 
+                    id={this.props.id}
                     project={this.props.project} 
                     elapsed={this.props.elapsed} 
                     runningSince={this.props.runningSince} 
