@@ -6,6 +6,12 @@ export class EditableTimer extends Component{
 
     state = {	editFormOpen: false,};
 
+    handleStartTimer = (timerid) => {
+        this.props.onStartTimer(timerid);
+    }
+    handleStopTimer = (timerid) => {
+        this.props.onStopTimer(timerid);
+    }
     switchTimer = () => {
         
         if(this.state.editFormOpen){
@@ -18,7 +24,7 @@ export class EditableTimer extends Component{
     }
 
     render(){
-        console.log('render Method:'+ this.state.editFormOpen)
+        
         if (this.state.editFormOpen) { 
             return (
               <TimerForm 
@@ -36,6 +42,8 @@ export class EditableTimer extends Component{
                     elapsed={this.props.elapsed} 
                     runningSince={this.props.runningSince} 
                     switchFn={this.switchTimer}
+                    onStartTimer={this.handleStartTimer}
+                    onStopTimer={this.handleStopTimer}
                     />
       ); }
       

@@ -3,6 +3,7 @@ import 'semantic-ui-css/semantic.min.css'
 import { EditableTimerList } from "./EditableTimerList";
 import { ToggleableTimerForm } from "./ToggleableTimerForm";
 import { v4 } from "uuid";
+import { createTimer } from "./Helpers";
 
 export class TimerDashBoard extends Component {
 
@@ -11,19 +12,43 @@ export class TimerDashBoard extends Component {
         {  title: 'Practice squat on Monday', 
            project: 'Gym Chores', 
            id: v4(),  
-           elapsed: 5456099, 
-           runningSince: Date.now(),
+           elapsed: 0, 
+           runningSince: null,
         },
         {   title: 'Bake squash',
              project: 'Kitchen Chores',  
              id: v4(), 
-             elapsed: 1273998,  
+             elapsed: 0,  
              runningSince: null,
         }, 
     ],
     };
+
+    startTimer = (timerid) => {
+        
+        this.setState({timers: this.state.timers.map( (t) => {
+            if(t.id === timerid){  
+               return Object.assign({}, t, {runningSince: Date.now()}) 
+            } 
+            return t;
+       } )})
+        
+    }
+
+    stopTimer = (timerid) =>{ 
+        
+        this.setState({timers: this.state.timers.map( (t) => {
+            if(t.id === timerid){
+                
+                return Object.assign({}, t, {elapsed: Date.now() - t.runningSince,
+                            runningSince: null}) 
+            } 
+            return t;
+       } ) })
+        
+    }
     
-    onHandleSubmit = (td) => {
+    onHandleEditSubmit = (td) => {
         this.setState({
             timers: this.state.timers.map((t) => {
                 console.log('t:'+t,'td:'+td)
@@ -39,15 +64,22 @@ export class TimerDashBoard extends Component {
         })
     }
 
+    onHandleCreateSubmit = (td) => {
+        const ti = createTimer(td);
+        this.setState({timers: this.state.timers.concat(ti) })
+    }
+
     render(){
         return(
         <div className='ui three column centered grid'>
             <div className='column'>
             <EditableTimerList
-                onHandleSubmit={this.onHandleSubmit}
-                timers={this.state.timers} />
+                onHandleSubmit={this.onHandleEditSubmit}
+                timers={this.state.timers}
+                onStartTimer={this.startTimer}
+                onStopTimer={this.stopTimer} />
             <ToggleableTimerForm
-                onHanldeSumbit={this.onHandleSubmit} 
+                onHandleSubmit={this.onHandleCreateSubmit} 
                 isOpen={false} />
             </div>
         </div>

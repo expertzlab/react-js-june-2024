@@ -2,6 +2,15 @@ import { Component } from "react";
 import { EditableTimer } from "./EditableTimer";
 
 export class EditableTimerList extends Component{
+
+    handleStartTimer = (timerid) => {
+       
+        this.props.onStartTimer(timerid);
+    }
+    handleStopTimer = (timerid) => {
+      
+        this.props.onStopTimer(timerid);
+    }
     render(){
         let timers = this.props.timers.map(
             (t) => (
@@ -14,7 +23,10 @@ export class EditableTimerList extends Component{
                      onHandleSubmit={this.props.onHandleSubmit}
                      elapsed={t?.elapsed} 
                      runningSince={t?.runningSince} 
-                     editFormOpen={t?.editFormOpen}/> 
+                     editFormOpen={t?.editFormOpen}
+                     onStartTimer={this.handleStartTimer}
+                     onStopTimer={this.handleStopTimer}
+                     /> 
                 </div>
 
             )

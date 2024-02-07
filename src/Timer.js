@@ -1,9 +1,20 @@
 import { Component } from "react";
+import { TimerActionButton } from "./TimerActionButton";
 
 export class Timer extends Component{
 
+
+
+    handleStartTimer = () => {
+        this.props.onStartTimer(this.props.id)
+        
+    }
+    handleStopTimer = () => {
+        this.props.onStopTimer(this.props.id)
+    }
+
     render(){
-        let elapsedString = "1:1:10"
+        
     return (
     <div className='ui centered card'>
       <div className='content'> 
@@ -12,7 +23,7 @@ export class Timer extends Component{
       </div>
     <div className='meta'> {this.props.project}</div>
     <div className='center aligned description'>
-        <h2>{elapsedString}</h2> </div>
+        <h2>{this.props.elapsed }</h2> </div>
       	<div className='extra content'>
             <span onClick={this.props.switchFn} className='right floated edit icon'>
                 <i className='edit icon' />
@@ -22,7 +33,11 @@ export class Timer extends Component{
             </span> 
         </div> 	
     </div>
-    	<div className='ui bottom attached blue basic button'> Start </div>
+    	<TimerActionButton 
+        runningSince={!!this.props.runningSince}
+        onStartTimer={this.handleStartTimer} 
+        onStopTimer={this.handleStopTimer} 
+        />
     </div>); 
     }
 }

@@ -21,7 +21,7 @@ export class ToggleableTimerForm extends Component {
 
     render() {
         if (this.state.isOpen) { 
-            return ( <TimerForm /> );
+            return ( <TimerForm switchTimer={this.toggle} onHandleSubmit={this.props.onHandleSubmit} /> );
         } else { 
             return (
                 <div className='ui basic content center aligned segment'>
