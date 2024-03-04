@@ -35,18 +35,31 @@ export class TimerDashBoard extends Component {
         
     }
 
-    stopTimer = (timerid) =>{ 
+    deleteTimer = (timerid) => {
         
-        this.setState({timers: this.state.timers.map( (t) => {
-            if(t.id === timerid){
-                
-                return Object.assign({}, t, {elapsed: Date.now() - t.runningSince,
-                            runningSince: null}) 
+        this.setState({timers: this.state.timers.filter( (t) => {
+            if(t.id !== timerid){  
+                return t;
             } 
-            return t;
-       } ) })
+       } )})
         
     }
+
+    stopTimer = (timerId) => {
+        const now = Date.now();
+        this.setState({
+          timers: this.state.timers.map((timer) => {
+            if (timer.id === timerId) {
+              const lastElapsed = now - timer.runningSince;
+              return Object.assign({}, timer, {
+                elapsed: timer.elapsed + lastElapsed,
+                runningSince: null,
+              });
+            } else {
+              return timer;
+    } }),
+    }); };
+    
     
     onHandleEditSubmit = (td) => {
         this.setState({
@@ -77,7 +90,9 @@ export class TimerDashBoard extends Component {
                 onHandleSubmit={this.onHandleEditSubmit}
                 timers={this.state.timers}
                 onStartTimer={this.startTimer}
-                onStopTimer={this.stopTimer} />
+                onStopTimer={this.stopTimer}
+                onDeleteTimer={this.deleteTimer}
+                />
             <ToggleableTimerForm
                 onHandleSubmit={this.onHandleCreateSubmit} 
                 isOpen={false} />

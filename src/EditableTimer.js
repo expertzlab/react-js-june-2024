@@ -6,6 +6,10 @@ export class EditableTimer extends Component{
 
     state = {	editFormOpen: false,};
 
+    handleDeleteTimer = (timerid) => {
+        this.props.onDeleteTimer(timerid);
+    }
+
     handleStartTimer = (timerid) => {
         this.props.onStartTimer(timerid);
     }
@@ -44,6 +48,7 @@ export class EditableTimer extends Component{
                     switchFn={this.switchTimer}
                     onStartTimer={this.handleStartTimer}
                     onStopTimer={this.handleStopTimer}
+                    onDeleteTimer={this.handleDeleteTimer}
                     />
       ); }
       
